@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const authRoute = require("./routes/auth");
 
 dotenv.config();
+app.use(express.json());
+
 const url = process.env.MONGO_URL
 
 mongoose.connect(process.env.MONGO_URL,{
@@ -12,6 +15,8 @@ mongoose.connect(process.env.MONGO_URL,{
 })
 .then((res) => { console.log('Connected to MongoDB'); })
 .catch((err) => { console.log(err); });
+
+app.use("/api/auth", authRoute);
 
 const port = process.env.PORT || 8080
 
